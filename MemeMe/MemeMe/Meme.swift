@@ -8,16 +8,10 @@
 
 import UIKit
 
-class Meme {
+struct Meme {
     
     var texts: (top: String, bottom: String)!
     var image: UIImage!
     var memedImage: UIImage!
-    
-    init(texts:(top: String, bottom: String), image:UIImage, memedImage:UIImage) {
-        self.texts = texts
-        self.image = image
-        self.memedImage = memedImage
-    }
-    
+        
 }

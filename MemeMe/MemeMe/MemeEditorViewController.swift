@@ -25,6 +25,9 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     var topTextFieldDelegate: TextFieldDelegate!
     var bottomTextFieldDelegate: TextFieldDelegate!
     
+    var memeToEdit: Meme!
+    var editingMode = false
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -33,36 +36,44 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         topTextFieldDelegate = TextFieldDelegate(textFieldType: "top", textField: topTextField)
         bottomTextFieldDelegate = TextFieldDelegate(textFieldType: "bottom", textField: bottomTextField)
         
-        topTextField.delegate = self.topTextFieldDelegate
-        bottomTextField.delegate = self.bottomTextFieldDelegate
+        topTextField.delegate = topTextFieldDelegate
+        bottomTextField.delegate = bottomTextFieldDelegate
 
-        self.subscribeToKeyboardNotifications()
+        subscribeToKeyboardNotifications()
         
-        if let imageViewHasImage = self.imageView.image {
+        if let meme = memeToEdit {
+            editingMode = true
+            
+            topTextField.text = meme.texts.top
+            bottomTextField.text = meme.texts.bottom
+            
+            imageView.image = meme.image
+        }
+        
+        if let imageViewHasImage = imageView.image {
             shareButton.enabled = true
         } else {
             shareButton.enabled = false
         }
-        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.updateImageContainerSize()
+        updateImageContainerSize()
         
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.unsubscribeFromKeyboardNotifications()
+        unsubscribeFromKeyboardNotifications()
     }
     
     @IBAction func pickImageFromCamera(sender: UIBarButtonItem) {
-        self.pickAnImage(pickFromCamera: true)
+        pickAnImage(pickFromCamera: true)
     }
     
     @IBAction func pickImageFromAlbum(sender: UIBarButtonItem) {
-        self.pickAnImage()
+        pickAnImage()
     }
     
     @IBAction func cancel(sender: UIBarButtonItem) {
@@ -70,18 +81,20 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         bottomTextFieldDelegate.resetText()
         imageView.image = nil
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func share(sender: UIBarButtonItem) {
-        let memedImage = self.generateMemedImage()
+        let memedImage = generateMemedImage()
         let activityController = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
         
         activityController.completionWithItemsHandler = {(activity, success, items, error) -> Void in
-            self.saveMeme(memedImage)
+            if (success) {
+                self.saveMeme(memedImage)
+            }
         }
         
-        self.presentViewController(activityController, animated: true, completion: nil)
+        presentViewController(activityController, animated: true, completion: nil)
         
     }
     
@@ -91,29 +104,29 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
         if memedImageFromParam != nil {
             memedImage = memedImageFromParam!
         } else {
-            memedImage = self.generateMemedImage()
+            memedImage = generateMemedImage()
         }
         
-        var meme = Meme(texts: (top: topTextField.text, bottom: bottomTextField.text), image: self.imageView.image!, memedImage: memedImage)
+        var meme = Meme(texts: (top: topTextField.text, bottom: bottomTextField.text), image: imageView.image!, memedImage: memedImage)
         
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         appDelegate.memes.append(meme)
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     func generateMemedImage() -> UIImage {
         var multiplier = CGFloat(0)
         
-        if let image = self.imageView.image {
-            let oldImageSize = self.imageViewContainerWidth.constant;
+        if let image = imageView.image {
+            let oldImageSize = imageViewContainerWidth.constant;
             let temporarySize = (image.size.width > image.size.height) ? image.size.height : image.size.width;
         
             multiplier = (temporarySize / oldImageSize) * 2;
         }
         
         
-        UIGraphicsBeginImageContextWithOptions(self.imageViewContainer.bounds.size, false, multiplier)
+        UIGraphicsBeginImageContextWithOptions(imageViewContainer.bounds.size, false, multiplier)
         
         imageViewContainer.drawViewHierarchyInRect(imageViewContainer.bounds, afterScreenUpdates: true)
         let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -132,7 +145,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
             pickerController.sourceType = UIImagePickerControllerSourceType.Camera
         }
         
-        self.presentViewController(pickerController, animated: true, completion: nil);
+        presentViewController(pickerController, animated: true, completion: nil);
     }
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
@@ -140,7 +153,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
             imageView.image = image;
         }
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     
@@ -179,7 +192,7 @@ class MemeEditorViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
     func updateImageContainerSize() {
-        let size = (self.autoLayoutContainer.frame.width > self.autoLayoutContainer.frame.height) ? self.autoLayoutContainer.frame.height : self.autoLayoutContainer.frame.width;
+        let size = (autoLayoutContainer.frame.width > autoLayoutContainer.frame.height) ? autoLayoutContainer.frame.height : autoLayoutContainer.frame.width;
         
         imageViewContainerWidth.constant = size
         imageViewContainerHeight.constant = size

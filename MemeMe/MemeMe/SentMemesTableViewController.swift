@@ -26,13 +26,13 @@ class SentMemesTableViewController: UIViewController, UITableViewDataSource, UIT
         memes = appDelegate.memes
         
         tableView.reloadData()
-        self.navigationItem.title = "Sent Memes"
+        navigationItem.title = "Sent Memes"
     }
 
     @IBAction func createNewMeme(sender: AnyObject?) {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc: MemeEditorViewController = storyboard.instantiateViewControllerWithIdentifier("MemeEditorView") as! MemeEditorViewController
-        self.presentViewController(vc, animated: true, completion: nil)
+        presentViewController(vc, animated: true, completion: nil)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -56,8 +56,9 @@ class SentMemesTableViewController: UIViewController, UITableViewDataSource, UIT
         let vc: DetailViewController = storyboard.instantiateViewControllerWithIdentifier("detailView") as! DetailViewController
         
         vc.meme = memes[indexPath.row]
+        vc.memeIdx = indexPath.row
         
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
 }

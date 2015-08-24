@@ -15,13 +15,13 @@ class TextFieldDelegate: NSObject, UITextFieldDelegate {
     var isActive: Bool
     
     init(textFieldType: String, textField: UITextField) {
-        self.isActive = false;
+        isActive = false;
         
         self.textField = textField;
         
-        self.type = (textFieldType == "top") ? "top" : "bottom"
+        type = (textFieldType == "top") ? "top" : "bottom"
         
-        self.defaultText = (self.type == "top") ? "TOP" : "BOTTOM"
+        defaultText = (self.type == "top") ? "TOP" : "BOTTOM"
         
         
         let textAttributes = [
@@ -35,17 +35,17 @@ class TextFieldDelegate: NSObject, UITextFieldDelegate {
         
         self.textField.textAlignment = NSTextAlignment.Center
         
-        self.textField.text = self.defaultText
+        self.textField.text = defaultText
     }
     
     func resetText() {
-        self.textField.text = self.defaultText
+        textField.text = defaultText
     }
     
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-        self.isActive = true;
+        isActive = true;
         
-        if (textField.text == self.defaultText) {
+        if (textField.text == defaultText) {
             textField.text = "";
         }
         
@@ -53,7 +53,7 @@ class TextFieldDelegate: NSObject, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        self.isActive = false;
+        isActive = false;
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {

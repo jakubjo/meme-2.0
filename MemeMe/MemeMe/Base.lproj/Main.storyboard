@@ -201,6 +201,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="ddR-mN-VA3" secondAttribute="trailing" id="sr3-At-aEO"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="autoLayoutContainer" destination="ddR-mN-VA3" id="QB8-Wu-Dhs"/>
                         <outlet property="bottomTextField" destination="uOI-1n-CK5" id="QM3-2J-cxW"/>
@@ -229,17 +230,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pI8-En-BYx">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pI8-En-BYx">
+                                <rect key="frame" x="0.0" y="37" width="600" height="526"/>
                             </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yKv-0P-GaR">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="trash" id="KAs-8h-1Hp">
+                                        <connections>
+                                            <action selector="deleteAction:" destination="hib-2k-7MS" id="bDZ-A5-vMI"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="V9l-DI-ddF"/>
+                                    <barButtonItem systemItem="edit" id="oqS-to-0eD">
+                                        <connections>
+                                            <action selector="editAction:" destination="hib-2k-7MS" id="fnl-3v-THd"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="DER-zc-2Gh" firstAttribute="top" secondItem="pI8-En-BYx" secondAttribute="bottom" id="EaT-Gj-8Y8"/>
-                            <constraint firstItem="pI8-En-BYx" firstAttribute="leading" secondItem="ALG-no-qmN" secondAttribute="leadingMargin" constant="-16" id="LYJ-O2-X31"/>
-                            <constraint firstItem="pI8-En-BYx" firstAttribute="top" secondItem="ALG-no-qmN" secondAttribute="top" id="M92-TT-eQF"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="pI8-En-BYx" secondAttribute="trailing" constant="-16" id="v71-DW-NHi"/>
+                            <constraint firstItem="yKv-0P-GaR" firstAttribute="leading" secondItem="ALG-no-qmN" secondAttribute="leadingMargin" constant="-16" id="2MN-88-mCy"/>
+                            <constraint firstAttribute="centerY" secondItem="pI8-En-BYx" secondAttribute="centerY" id="Nak-So-aGe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="yKv-0P-GaR" secondAttribute="trailing" constant="-16" id="Pi4-SM-c3W"/>
+                            <constraint firstAttribute="centerX" secondItem="pI8-En-BYx" secondAttribute="centerX" id="q3g-ku-j13"/>
+                            <constraint firstItem="DER-zc-2Gh" firstAttribute="top" secondItem="yKv-0P-GaR" secondAttribute="bottom" id="yUL-gc-E6Q"/>
                         </constraints>
                     </view>
                     <connections>

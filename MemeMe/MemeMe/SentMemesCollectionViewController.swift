@@ -19,7 +19,7 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDataS
         super.viewDidLoad()
         
         let space: CGFloat = 3.0
-        let dimension = (self.view.frame.size.width - (2 * space)) / 3.0
+        let dimension = (view.frame.size.width - (2 * space)) / 3.0
         
         flowLayout.minimumInteritemSpacing = space
         flowLayout.minimumLineSpacing = space
@@ -36,13 +36,13 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDataS
         
         collectionView.reloadData()
         
-        self.navigationItem.title = "Sent Memes"
+        navigationItem.title = "Sent Memes"
     }
     
     @IBAction func createNewMeme(sender: AnyObject?) {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc: MemeEditorViewController = storyboard.instantiateViewControllerWithIdentifier("MemeEditorView") as! MemeEditorViewController
-        self.presentViewController(vc, animated: true, completion: nil)
+        presentViewController(vc, animated: true, completion: nil)
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -65,8 +65,9 @@ class SentMemesCollectionViewController: UIViewController, UICollectionViewDataS
         let vc: DetailViewController = storyboard.instantiateViewControllerWithIdentifier("detailView") as! DetailViewController
         
         vc.meme = memes[indexPath.item]
+        vc.memeIdx = indexPath.item
         
-        self.navigationController?.pushViewController(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
